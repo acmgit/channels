@@ -68,7 +68,7 @@ minetest.register_on_chat_message(function(name, message)
 		end
 	end
 	
-	channels.say_chat(name, "<" .. name .. "> " .. message, pl_channel)
+	channels.say_chat(name, "<" .. name .. "@" .. pl_channel .. "> " .. message, pl_channel)
 	return true
 end)
 
