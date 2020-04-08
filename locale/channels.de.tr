@@ -1,0 +1,30 @@
+# textdomain: channels
+
+
+### chatcommands.lua ###
+
+(Announcement from @1): @2=(Anküdigung von @1): @2
+> @1 joined the channel.=> @1 betritt den Kanal.
+> @1 left the channel.=> @1 verlässt den Kanal.
+> @1 left the global chat.=> @1 verlässt den globalen Kanal.
+@1 invites @2 to join @3.=@1 lädt @2 in den Kanal @3 ein.
+@1 invites you to join @2.=@1 lädt dich in den Kanal @2 ein.
+Channel: =Kanal: 
+Error - require 'basic_privs' privilege.=Fehler - Privileg 'basic_privs' bennötigt.
+Error: Empty channel name.=Fehler: Kein Kanalnamen angegeben.
+Error: Please check again '/channel' for correct usage.=Fehler: Bitte gib '/channel' für die richtige Anwendung ein.
+Error: You are already in this channel.=Fehler: Du bist bereits in diesem Kanal."
+Invite to channel:  /channel invite <playername>=In einen Kanal einladen: /channel invite <Spielername>
+Join/switch:        /channel join <channel>=Betreten/Wechseln:       /channel join <Kanal>
+Leave channel:      /channel leave=Verlasse Kanal:              /channel leave
+Manages chat channels=Verwaltet Chat-Kanäle
+Online players in this channel: =Online Spieler in diesem Kanal:
+Online players:     /channel online=Online Spieler:               /channel online
+Please join a channel first to leave it=Bitte betrete erst einen Kanal, bis du ihn verlassen kannst.
+The global channel is not usable.=Der globale Kanal ist nicht verfügbar.
+
+### init.lua ###
+
+(try '/channel join =(versuche '/channel join 
+<*server*> Out-of-channel chat is off.=<*server*> Out-of-channel Chat ist aus.
+No channel selected. Run '/channel' for more info.=Kein Kanal gewählt. Gib '/channel' für mehr Informationen ein.

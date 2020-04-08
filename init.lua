@@ -6,6 +6,16 @@ channels.allow_global_channel = minetest.settings:get_bool("channels.allow_globa
 channels.disable_private_messages = minetest.settings:get_bool("channels.disable_private_messages") == true
 channels.suggested_channel = minetest.settings:get("channels.suggested_channel")
 
+local S
+
+if(minetest.get_translator) then
+    S = minetest.get_translator(minetest.get_current_modname())
+else
+    S = function(s) return s end
+end
+
+channels.S = S
+
 dofile(minetest.get_modpath("channels") .. "/chatcommands.lua")
 
 
@@ -18,8 +28,8 @@ end
 local function remind_global_off()
 	if not channels.allow_global_channel and channels.suggested_channel then
 		channels.say_chat("*server*",
-            "<*server*> Out-of-channel chat is off." .. 
-            "(try '/channel join " .. channels.suggested_channel .. "' ?)"
+            S("<*server*> Out-of-channel chat is off.") .. 
+            S("(try '/channel join ") .. channels.suggested_channel .. "' ?)"
         )
 	end
 end
@@ -49,7 +59,7 @@ minetest.register_on_chat_message(function(name, message)
 
 	if not pl_channel then
 		if not channels.allow_global_channel then
-			minetest.chat_send_player(name, "No channel selected. Run '/channel' for more info")
+			minetest.chat_send_player(name, S("No channel selected. Run '/channel' for more info."))
 			-- return true to prevent subsequent/global handler from kicking in
 			return true
 		else

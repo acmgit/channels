@@ -1,15 +1,17 @@
+local S = channels.S
+
 minetest.register_chatcommand("channel", {
-	description = "Manages chat channels",
+	description = S("Manages chat channels"),
 	privs = {
 		interact = true, 
 		shout = true
 	},
 	func = function(name, param)
 		if param == "" then
-			minetest.chat_send_player(name, "Online players:     /channel online")
-			minetest.chat_send_player(name, "Join/switch:        /channel join <channel>")
-			minetest.chat_send_player(name, "Leave channel:      /channel leave")
-			minetest.chat_send_player(name, "Invite to channel:  /channel invite <playername>")
+			minetest.chat_send_player(name, S("Online players:     /channel online"))
+			minetest.chat_send_player(name, S("Join/switch:        /channel join <channel>"))
+			minetest.chat_send_player(name, S("Leave channel:      /channel leave"))
+			minetest.chat_send_player(name, S("Invite to channel:  /channel invite <playername>"))
 			return
 
 		elseif param == "online" then
@@ -37,7 +39,7 @@ minetest.register_chatcommand("channel", {
 			return
 		end
 
-		minetest.chat_send_player(name, "Error: Please check again '/channel' for correct usage.")
+		minetest.chat_send_player(name, S("Error: Please check again '/channel' for correct usage."))
 	end,
 })
 
@@ -63,27 +65,27 @@ function channels.command_invite(hoster,guest)
 		if channels.allow_global_channel then
 			channelname = "the global chat"
 		else
-			minetest.chat_send_player(hoster, "The global channel is not usable.")
+			minetest.chat_send_player(hoster, S("The global channel is not usable."))
 			return
 		end
 	else
 		channelname = "the '" .. channelname .. "' chat channel."
 	end
 
-	minetest.chat_send_player(guest, hoster .. " invites you to join " .. channelname)
+	minetest.chat_send_player(guest, S("@1 invites you to join @2.", hoster, channelname))
 
 	-- Let other players in channel know
-	channels.say_chat(hoster, hoster .. " invites " .. guest .. " to join " .. channelname, channelname)
+	channels.say_chat(hoster,S("@1 invites @2 to join @3.",hoster,guest,channelname), channelname)
 end
 
 function channels.command_wall(name, message)
 	local playerprivs = minetest.get_player_privs(name)
 	if not playerprivs.basic_privs then
-		minetest.chat_send_player(name, "Error - require 'basic_privs' privilege.")
+		minetest.chat_send_player(name, S("Error - require 'basic_privs' privilege."))
 		return
 	end
 
-	minetest.chat_send_all("(Announcement from " .. name .. "): " .. message)
+	minetest.chat_send_all(S("(Announcement from @1): @2", name, message))
 end
 
 function channels.command_online(name)
@@ -105,29 +107,29 @@ function channels.command_online(name)
 		end
 	end
 	
-	minetest.chat_send_player(name, "Online players in this channel: "
+	minetest.chat_send_player(name, S("Online players in this channel: ")
 		.. table.concat(list, ", "))
 end
 
 function channels.command_set(name, param)
 	if param == "" then
-		minetest.chat_send_player(name, "Error: Empty channel name")
+		minetest.chat_send_player(name, S("Error: Empty channel name."))
 		return
 	end
 	
 	local channel_old = channels.players[name]
 	if channel_old then
 		if channel_old == param then
-			minetest.chat_send_player(name, "Error: You are already in this channel")
+			minetest.chat_send_player(name, S("Error: You are already in this channel."))
 			return
 		end
-		channels.say_chat(name, "# " .. name .. " left the channel", channel_old)
+		channels.say_chat(name, S("> @1 left the channel.", name), channel_old)
 	else
 		local oplayers = minetest.get_connected_players()
 		for _,player in ipairs(oplayers) do
 			local p_name = player:get_player_name()
 			if not channels.players[p_name] and p_name ~= name and channels.allow_global_channel then
-				minetest.chat_send_player(p_name, "# " .. name .. " left the global chat")
+				minetest.chat_send_player(p_name, S("> @1 left the global chat.", name))
 			end
 		end
 	end
@@ -147,11 +149,11 @@ function channels.command_set(name, param)
 		name		= "Channel",
 		number		= 0xFFFFFF,
 		position	= {x = 0.6, y = 0.03},
-		text		= "Channel: " .. param,
+		text		= S("Channel: ") .. param,
 		scale		= {x = 200,y = 25},
 		alignment	= {x = 0, y = 0},
 	})
-	channels.say_chat("", "# " .. name .. " joined the channel", param)
+	channels.say_chat("",S("> @1 joined the channel.", name), param)
 end
 
 function channels.command_leave(name)
@@ -163,12 +165,12 @@ function channels.command_leave(name)
 	end
 	
 	if not (channels.players[name] and channels.huds[name]) then
-		minetest.chat_send_player(name, "Please join a channel first to leave it")
+		minetest.chat_send_player(name, S("Please join a channel first to leave it"))
 		return
 	end
 	
 	if channels.players[name] then
-		channels.say_chat("", "# " .. name .. " left the channel", channels.players[name])
+		channels.say_chat("",S("> @1 left the channel.", name), channels.players[name])
 		channels.players[name] = nil
 	end
 	

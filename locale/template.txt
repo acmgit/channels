@@ -1,0 +1,30 @@
+# textdomain: channels
+
+
+### chatcommands.lua ###
+
+(Announcement from @1): @2=
+> @1 joined the channel.=
+> @1 left the channel.=
+> @1 left the global chat.=
+@1 invites @2 to join @3.=
+@1 invites you to join @2.=
+Channel: =
+Error - require 'basic_privs' privilege.=
+Error: Empty channel name.=
+Error: Please check again '/channel' for correct usage.=
+Error: You are already in this channel.=
+Invite to channel:  /channel invite <playername>=
+Join/switch:        /channel join <channel>=
+Leave channel:      /channel leave=
+Manages chat channels=
+Online players in this channel: =
+Online players:     /channel online=
+Please join a channel first to leave it=
+The global channel is not usable.=
+
+### init.lua ###
+
+(try '/channel join =
+<*server*> Out-of-channel chat is off.=
+No channel selected. Run '/channel' for more info.=
