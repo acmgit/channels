@@ -1,6 +1,6 @@
 local S = channels.S
 
-minetest.register_chatcommand("channel", {
+minetest.register_chatcommand("c", {
 	description = S("Manages chat channels"),
 	privs = {
 		interact = true, 
@@ -8,12 +8,13 @@ minetest.register_chatcommand("channel", {
 	},
 	func = function(name, param)
 		if param == "" then
-			minetest.chat_send_player(name, S("Online players:     /channel online"))
-			minetest.chat_send_player(name, S("Join/switch:        /channel join <channel>"))
-			minetest.chat_send_player(name, S("Leave channel:      /channel leave"))
-			minetest.chat_send_player(name, S("Invite to channel:  /channel invite <playername>"))
-            minetest.chat_send_player(name, S("List channels:      /channel list"))
-			return
+			minetest.chat_send_player(name, S("Online players:     /c online"))
+			minetest.chat_send_player(name, S("Join/switch:        /c join <channel>"))
+			minetest.chat_send_player(name, S("Leave channel:      /c leave"))
+			minetest.chat_send_player(name, S("Invite to channel:  /c invite <playername>"))
+            minetest.chat_send_player(name, S("List channels:      /c list"))
+			minetest.chat_send_player(name, S("Send all:           /c all <message>"))
+            return
 
 		elseif param == "online" then
 			channels.command_online(name)
@@ -35,7 +36,7 @@ minetest.register_chatcommand("channel", {
 			channels.command_invite(name, args[2])
 			return
 
-		elseif args[1] == "wall" and #args >= 2 then
+		elseif args[1] == "all" and #args >= 2 then
 			channels.command_wall(name, table.concat(args," ",2, #args) )
 			return
                                          
@@ -44,7 +45,7 @@ minetest.register_chatcommand("channel", {
             return
 		end
 
-		minetest.chat_send_player(name, S("Error: Please check again '/channel' for correct usage."))
+		minetest.chat_send_player(name, channels.red .. S("Error: Please check again '/c' for correct usage."))
 	end,
 })
 
@@ -70,27 +71,27 @@ function channels.command_invite(hoster,guest)
 		if channels.allow_global_channel then
 			channelname = "the global chat"
 		else
-			minetest.chat_send_player(hoster, S("The global channel is not usable."))
+			minetest.chat_send_player(hoster, channels.red .. S("The global channel is not usable."))
 			return
 		end
 	else
 		channelname = "the '" .. channelname .. "' chat channel."
 	end
 
-	minetest.chat_send_player(guest, S("@1 invites you to join @2. Enter /channel join @2 to join.", hoster, channelname))
+	minetest.chat_send_player(guest,channels.orange .. S("@1 invites you to join @2. Enter /c join @2 to join.", hoster, channelname))
 
 	-- Let other players in channel know
-	channels.say_chat(hoster,S("@1 invites @2 to join @3.",hoster,guest,channelname), channelname)
+	channels.say_chat(hoster,channels.green .. S("@1 invites @2 to join @3.",hoster,guest,channelname), channelname)
 end
 
 function channels.command_wall(name, message)
 	local playerprivs = minetest.get_player_privs(name)
 	if not playerprivs.basic_privs then
-		minetest.chat_send_player(name, S("Error - require 'basic_privs' privilege."))
+		minetest.chat_send_player(name,channels.red .. S("Error - require 'basic_privs' privilege."))
 		return
 	end
 
-	minetest.chat_send_all(S("(Announcement from @1): @2", name, message))
+	minetest.chat_send_all(channels.green .. "[" .. channels.yellow .. name .. channels.green .. "]: " .. channels.orange .. message)
 end
 
 function channels.command_online(name)
@@ -112,29 +113,29 @@ function channels.command_online(name)
 		end
 	end
 	
-	minetest.chat_send_player(name, S("Online players in this channel: ")
+	minetest.chat_send_player(name, channels.green .. S("Online players in this channel: ") .. channels.orange
 		.. table.concat(list, ", "))
 end
 
 function channels.command_set(name, param)
 	if param == "" then
-		minetest.chat_send_player(name, S("Error: Empty channel name."))
+		minetest.chat_send_player(name, channels.red .. S("Error: Empty channel name."))
 		return
 	end
 	
 	local channel_old = channels.players[name]
 	if channel_old then
 		if channel_old == param then
-			minetest.chat_send_player(name, S("Error: You are already in this channel."))
+			minetest.chat_send_player(name, channels.red .. S("Error: You are already in this channel."))
 			return
 		end
-		channels.say_chat(name, S("> @1 left the channel.", name), channel_old)
+		channels.say_chat(name, channels.orange .. S("> @1 left the channel.", name), channel_old)
 	else
 		local oplayers = minetest.get_connected_players()
 		for _,player in ipairs(oplayers) do
 			local p_name = player:get_player_name()
 			if not channels.players[p_name] and p_name ~= name and channels.allow_global_channel then
-				minetest.chat_send_player(p_name, S("> @1 left the global chat.", name))
+				minetest.chat_send_player(p_name, channels.orange .. S("> @1 left the global chat.", name))
 			end
 		end
 	end
@@ -154,11 +155,11 @@ function channels.command_set(name, param)
 		name		= "Channel",
 		number		= 0xFFFFFF,
 		position	= {x = 0.6, y = 0.03},
-		text		= S("Channel: ") .. param,
+		text		= channels.green .. S("Channel: ").. channels.orange .. param,
 		scale		= {x = 200,y = 25},
 		alignment	= {x = 0, y = 0},
 	})
-	channels.say_chat("",S("> @1 joined the channel.", name), param)
+	channels.say_chat("",channels.orange .. S("> @1 joined the channel.", name), param)
 end
 
 function channels.command_leave(name)
@@ -170,12 +171,12 @@ function channels.command_leave(name)
 	end
 	
 	if not (channels.players[name] and channels.huds[name]) then
-		minetest.chat_send_player(name, S("Please join a channel first to leave it"))
+		minetest.chat_send_player(name, channels.red .. S("Please join a channel first to leave it"))
 		return
 	end
 	
 	if channels.players[name] then
-		channels.say_chat("",S("> @1 left the channel.", name), channels.players[name])
+		channels.say_chat("",channels.orange .. S("> @1 left the channel.", name), channels.players[name])
 		channels.players[name] = nil
 	end
 	
@@ -187,9 +188,8 @@ end
 
 function channels.command_list_channels(name)
     
-    minetest.chat_send_player(name, S("Available Channels:"))
+    minetest.chat_send_player(name, channels.green .. S("Available Channels:"))
     local list = {}
-    local i = 0
     
     for _,value in pairs(channels.players) do
             if value ~= "" then
@@ -199,7 +199,7 @@ function channels.command_list_channels(name)
     
     if(list ~= nil) then
         for _,value in pairs(list) do
-            minetest.chat_send_player(name, value)
+            minetest.chat_send_player(name, channels.orange .. value)
         end
     end
     

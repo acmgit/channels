@@ -8,6 +8,9 @@ channels.suggested_channel = minetest.settings:get("channels.suggested_channel")
 
 channels.white = minetest.get_color_escape_sequence('#FFFFFF')
 channels.yellow = minetest.get_color_escape_sequence('#FFFF00')
+channels.green = minetest.get_color_escape_sequence('#00FF00')
+channels.red = minetest.get_color_escape_sequence('#FF0000')
+channels.orange = minetest.get_color_escape_sequence('#FF6700')
 
 local cprint = minetest.display_chat_message
 
