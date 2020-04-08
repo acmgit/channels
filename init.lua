@@ -6,6 +6,11 @@ channels.allow_global_channel = minetest.settings:get_bool("channels.allow_globa
 channels.disable_private_messages = minetest.settings:get_bool("channels.disable_private_messages") == true
 channels.suggested_channel = minetest.settings:get("channels.suggested_channel")
 
+channels.white = minetest.get_color_escape_sequence('#FFFFFF')
+channels.yellow = minetest.get_color_escape_sequence('#FFFF00')
+
+local cprint = minetest.display_chat_message
+
 local S
 
 if(minetest.get_translator) then
@@ -68,7 +73,7 @@ minetest.register_on_chat_message(function(name, message)
 		end
 	end
 	
-	channels.say_chat(name, "<" .. name .. "@" .. pl_channel .. "> " .. message, pl_channel)
+	channels.say_chat(name, channels.yellow .. "<" .. name .. "@" .. pl_channel .. "> " .. message, pl_channel)
 	return true
 end)
 

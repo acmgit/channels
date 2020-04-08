@@ -12,6 +12,7 @@ minetest.register_chatcommand("channel", {
 			minetest.chat_send_player(name, S("Join/switch:        /channel join <channel>"))
 			minetest.chat_send_player(name, S("Leave channel:      /channel leave"))
 			minetest.chat_send_player(name, S("Invite to channel:  /channel invite <playername>"))
+            minetest.chat_send_player(name, S("List channels:      /channel list"))
 			return
 
 		elseif param == "online" then
@@ -37,6 +38,10 @@ minetest.register_chatcommand("channel", {
 		elseif args[1] == "wall" and #args >= 2 then
 			channels.command_wall(name, table.concat(args," ",2, #args) )
 			return
+                                         
+        elseif args[1] == "list" then
+            channels.command_list_channels(name)
+            return
 		end
 
 		minetest.chat_send_player(name, S("Error: Please check again '/channel' for correct usage."))
@@ -72,7 +77,7 @@ function channels.command_invite(hoster,guest)
 		channelname = "the '" .. channelname .. "' chat channel."
 	end
 
-	minetest.chat_send_player(guest, S("@1 invites you to join @2.", hoster, channelname))
+	minetest.chat_send_player(guest, S("@1 invites you to join @2. Enter /channel join @2 to join.", hoster, channelname))
 
 	-- Let other players in channel know
 	channels.say_chat(hoster,S("@1 invites @2 to join @3.",hoster,guest,channelname), channelname)
@@ -178,4 +183,24 @@ function channels.command_leave(name)
 		player:hud_remove(channels.huds[name])
 		channels.huds[name] = nil
 	end
+end
+
+function channels.command_list_channels(name)
+    
+    minetest.chat_send_player(name, S("Available Channels:"))
+    local list = {}
+    local i = 0
+    
+    for _,value in pairs(channels.players) do
+            if value ~= "" then
+                list[value] = value
+            end
+    end
+    
+    if(list ~= nil) then
+        for _,value in pairs(list) do
+            minetest.chat_send_player(name, value)
+        end
+    end
+    
 end
