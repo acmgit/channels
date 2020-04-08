@@ -14,15 +14,15 @@ Error - require 'basic_privs' privilege.=
 Error: Empty channel name.=
 Error: Please check again '/c' for correct usage.=
 Error: You are already in this channel.=
-Invite to channel:  /c invite <playername>=
-Join/switch:        /c join <channel>=
-Leave channel:      /c leave=
-List channels:      /c list=
+Invite to channel:  /c i[nvite] <playername>=
+Join/switch:        /c j[oin] <channel>=
+Leave channel:      /c l[eave]=
+List channels:      /c li[st]=
 Manages chat channels=
 Online players in this channel: =
-Online players:     /c online=
+Online players:     /c o[nline]=
 Please join a channel first to leave it=
-Send all:           /c all <message>=
+Send all:           /c a[ll] <message>=
 The global channel is not usable.=
 
 ### init.lua ###

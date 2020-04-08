@@ -8,19 +8,19 @@ minetest.register_chatcommand("c", {
 	},
 	func = function(name, param)
 		if param == "" then
-			minetest.chat_send_player(name, S("Online players:     /c online"))
-			minetest.chat_send_player(name, S("Join/switch:        /c join <channel>"))
-			minetest.chat_send_player(name, S("Leave channel:      /c leave"))
-			minetest.chat_send_player(name, S("Invite to channel:  /c invite <playername>"))
-            minetest.chat_send_player(name, S("List channels:      /c list"))
-			minetest.chat_send_player(name, S("Send all:           /c all <message>"))
+			minetest.chat_send_player(name, S("Online players:     /c o[nline]"))
+			minetest.chat_send_player(name, S("Join/switch:        /c j[oin] <channel>"))
+			minetest.chat_send_player(name, S("Leave channel:      /c l[eave]"))
+			minetest.chat_send_player(name, S("Invite to channel:  /c i[nvite] <playername>"))
+            minetest.chat_send_player(name, S("List channels:      /c li[st]"))
+			minetest.chat_send_player(name, S("Send all:           /c a[ll] <message>"))
             return
 
-		elseif param == "online" then
+		elseif (param == "online" or param == "o") then
 			channels.command_online(name)
 			return
 
-		elseif param == "leave" then
+		elseif (param == "leave" or param == "l") then
 			channels.command_leave(name)
 			return
 		end
@@ -28,19 +28,19 @@ minetest.register_chatcommand("c", {
 
 		local args = param:split(" ")
 
-		if args[1] == "join" and #args == 2 then
+		if (args[1] == "join" or args[1] == "j") and #args == 2 then
 			channels.command_set(name, args[2])
 			return
 
-		elseif args[1] == "invite" and #args == 2 then
+		elseif (args[1] == "invite" or args[1] == "i") and #args == 2 then
 			channels.command_invite(name, args[2])
 			return
 
-		elseif args[1] == "all" and #args >= 2 then
+		elseif (args[1] == "all" or args[1] == "a") and #args >= 2 then
 			channels.command_wall(name, table.concat(args," ",2, #args) )
 			return
                                          
-        elseif args[1] == "list" then
+        elseif (args[1] == "list" or args[1] == "li") then
             channels.command_list_channels(name)
             return
 		end
@@ -90,8 +90,16 @@ function channels.command_wall(name, message)
 		minetest.chat_send_player(name,channels.red .. S("Error - require 'basic_privs' privilege."))
 		return
 	end
-
-	minetest.chat_send_all(channels.green .. "[" .. channels.yellow .. name .. channels.green .. "]: " .. channels.orange .. message)
+    
+    local channel = channels.players[name]
+    
+    if(channel ~= nil) then 
+        channel = "@" .. channel
+    else
+        channel = ""
+    end
+    
+	minetest.chat_send_all(channels.green .. "[" .. channels.yellow .. name .. channel ..  channels.green .. "]: " .. channels.orange .. message)
 end
 
 function channels.command_online(name)

@@ -14,15 +14,15 @@ Error - require 'basic_privs' privilege.=Fehler - Privileg 'basic_privs' bennöt
 Error: Empty channel name.=Fehler: Kein Kanalnamen angegeben.
 Error: Please check again '/c' for correct usage.=Fehler: Bitte gib '/c' für die richtige Anwendung ein.
 Error: You are already in this channel.=Fehler: Du bist bereits in diesem Kanal."
-Invite to channel:  /c invite <playername>=In einen Kanal einladen:      /c invite <Spielername>
-Join/switch:        /c join <channel>=Online Spieler:               /c online
-Leave channel:      /c leave=Verlasse Kanal:               /c leave
-List channels:      /c list=Liste Kanäle:                 /c list
+Invite to channel:  /c i[nvite] <playername>=In einen Kanal einladen:      /c i[nvite] <Spielername>
+Join/switch:        /c j[oin] <channel>=Betritt/Wechselt den Kanal    /c j[oin] <Kanal>
+Leave channel:      /c l[eave]=Verlasse Kanal:               /c l[eave]
+List channels:      /c li[st]=Liste Kanäle:                 /c li[st]
 Manages chat channels=Verwaltet Chat-Kanäle
 Online players in this channel: =Online Spieler in diesem Kanal: 
-Online players:     /c online=Online Spieler:               /c online
+Online players:     /c o[nline]=Online Spieler:               /c o[nline]
 Please join a channel first to leave it=Bitte betrete erst einen Kanal, bis du ihn verlassen kannst.
-Send all:           /c all <message>=Sendet an alle:               /c all <Nachricht>
+Send all:           /c a[ll] <message>=Sendet an alle:               /c a[ll] <Nachricht>
 The global channel is not usable.=Der globale Kanal ist nicht verfügbar.
 
 ### init.lua ###
