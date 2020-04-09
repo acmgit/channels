@@ -67,21 +67,25 @@ end
 
 function channels.command_invite(hoster,guest)
 	local channelname = channels.players[hoster]
+    local cname
+    
 	if not channelname then
 		if channels.allow_global_channel then
 			channelname = "the global chat"
+            cname = ""
 		else
 			minetest.chat_send_player(hoster, channels.red .. S("The global channel is not usable."))
 			return
 		end
 	else
+        cname = channelname
 		channelname = "the '" .. channelname .. "' chat channel."
 	end
 
-	minetest.chat_send_player(guest,channels.orange .. S("@1 invites you to join @2. Enter /c join @2 to join.", hoster, channelname))
-
+	minetest.chat_send_player(guest,channels.orange .. S("@1 invites you to join @2. Enter /c join @3 to join.", hoster, cname, cname))
+                              
 	-- Let other players in channel know
-	channels.say_chat(hoster,channels.green .. S("@1 invites @2 to join @3.",hoster,guest,channelname), channelname)
+	channels.say_chat(hoster,channels.green .. S("@1 invites @2 to join @3.",hoster,guest,cname), cname)
 end
 
 function channels.command_wall(name, message)

@@ -7,7 +7,7 @@
 > @1 left the channel.=> @1 verlässt den Kanal.
 > @1 left the global chat.=> @1 verlässt den globalen Kanal.
 @1 invites @2 to join @3.=@1 lädt @2 in den Kanal @3 ein.
-@1 invites you to join @2. Enter /c join @2 to join.=@1 lädt dich in den Kanal @2 ein. Gib /c join @2 zum betreten ein.
+@1 invites you to join @2. Enter /c join @3 to join.=@1 lädt dich in den Kanal @2 ein. Gib /c join @3 zum betreten ein.
 Available Channels:=Verfügbare Kanäle:
 Channel: =Kanal: 
 Error - require 'basic_privs' privilege.=Fehler - Privileg 'basic_privs' bennötigt.
@@ -27,6 +27,6 @@ The global channel is not usable.=Der globale Kanal ist nicht verfügbar.
 
 ### init.lua ###
 
-(try '/channel join =(versuche '/channel join 
+(try '/c join =(versuche '/c join 
 <*server*> Out-of-channel chat is off.=<*server*> Out-of-channel Chat ist aus.
-No channel selected. Run '/channel' for more info.=Kein Kanal gewählt. Gib '/channel' für mehr Informationen ein.
+No channel selected. Run '/c' for more info.=Kein Kanal gewählt. Gib '/c' für mehr Informationen ein.

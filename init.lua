@@ -3,7 +3,7 @@ channels.huds = {}
 channels.players = {}
 
 channels.allow_global_channel = minetest.settings:get_bool("channels.allow_global_channel") ~= false
-channels.disable_private_messages = minetest.settings:get_bool("channels.disable_private_messages") == true
+channels.disable_private_messages = minetest.settings:get_bool("channels.disable_private_messages") == false
 channels.suggested_channel = minetest.settings:get("channels.suggested_channel")
 
 channels.white = minetest.get_color_escape_sequence('#FFFFFF')
@@ -37,7 +37,7 @@ local function remind_global_off()
 	if not channels.allow_global_channel and channels.suggested_channel then
 		channels.say_chat("*server*",
             S("<*server*> Out-of-channel chat is off.") .. 
-            S("(try '/channel join ") .. channels.suggested_channel .. "' ?)"
+            S("(try '/c join ") .. channels.suggested_channel .. "' ?)"
         )
 	end
 end
@@ -67,7 +67,7 @@ minetest.register_on_chat_message(function(name, message)
 
 	if not pl_channel then
 		if not channels.allow_global_channel then
-			minetest.chat_send_player(name, S("No channel selected. Run '/channel' for more info."))
+			minetest.chat_send_player(name, S("No channel selected. Run '/c' for more info."))
 			-- return true to prevent subsequent/global handler from kicking in
 			return true
 		else

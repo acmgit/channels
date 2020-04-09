@@ -7,7 +7,7 @@
 > @1 left the channel.=
 > @1 left the global chat.=
 @1 invites @2 to join @3.=
-@1 invites you to join @2. Enter /c join @2 to join.=
+@1 invites you to join @2. Enter /c join @3 to join.=
 Available Channels:=
 Channel: =
 Error - require 'basic_privs' privilege.=
@@ -27,6 +27,6 @@ The global channel is not usable.=
 
 ### init.lua ###
 
-(try '/channel join =
+(try '/c join =
 <*server*> Out-of-channel chat is off.=
-No channel selected. Run '/channel' for more info.=
+No channel selected. Run '/c' for more info.=
